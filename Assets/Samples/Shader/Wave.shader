@@ -1,8 +1,16 @@
+// 参考
+// https://qiita.com/note-nota/items/d2e251d93bc5fac2cbba
+// http://marupeke296.com/Shader_No8_GeoVtxOperation.html
 Shader "Unlit/Wave"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Amp("Amplitude", float) = 1.0
+        _Freq("Frequency", float) = 0.3
+        _Speed("Speed", float) = 0.05
+        _Ox("origin_x", Range(-0.5,0.5)) = 0
+        _Oy("origin_y", Range(-0.5,0.5)) = 0
     }
     SubShader
     {
@@ -33,16 +41,22 @@ Shader "Unlit/Wave"
             };
 
             sampler2D _MainTex;
+            float _Amp;
+            float _Freq;
+            float _Speed;
+            float _Ox;
+            float _Oy;
             float4 _MainTex_ST;
+
+            static const float PI = 3.14159265f;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 {
-                    // 頂点をsin()で波立たせる
-                    // http://marupeke296.com/Shader_No8_GeoVtxOperation.html
-                    const float PI = 3.1415926535f;
-                    v.vertex.y = 0.05f * sin( 3.0f * v.vertex.x * 2.0f * PI );
+                    float2 diff = float2(v.vertex.x - _Ox, v.vertex.z - _Oy);
+                    float dist = sqrt(diff.x * diff.x + diff.y * diff.y);
+                    v.vertex.y =  _Amp * sin(2.0f * PI * _Freq * (_Time.y - (dist / _Speed)));
                 }
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
