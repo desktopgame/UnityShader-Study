@@ -31,6 +31,7 @@ Shader "Unlit/Blur"
             struct v2f
             {
                 // https://docs.unity3d.com/ja/2019.4/Manual/SL-GrabPass.html
+                // TODO: なぜテクスチャ座標が四次元で返ってくる？何か追加の情報？
                 float4 uv : TEXCOORD0;
                 UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
@@ -63,7 +64,17 @@ Shader "Unlit/Blur"
                 // UNITY_APPLY_FOG(i.fogCoord, col);
                 // return col;
                 half4 pixelCol = half4(0, 0, 0, 0);
+                // https://docs.unity3d.com/ja/2019.4/Manual/SL-BuiltinMacros.html
+                // UNITY_PROJ_COORD
+                // > 4次元ベクトルを渡すと、投影されたテクスチャ読み込みに適切なテクスチャ座標を戻します。ほとんどのプラットフォームでは渡された値そのものを戻します。
+                // TODO: なぜ必要？
+
+                // https://edom18.hateblo.jp/entry/2019/07/30/091403
+                // tex2Dproj
+                // 上記サイトが参考になる。
+                // しかし ComputeGrabScreenPos の z, w に何が入っているかがわからない...
                 #define ADDPIXEL(weight,kernelX) tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(float4(i.uv.x + _GrabTexture_TexelSize.x * kernelX * _Factor, i.uv.y, i.uv.z, i.uv.w))) * weight
+                // UVを少しずらしながら色を重ねる？
                 pixelCol += ADDPIXEL(0.05, 4.0);
                 pixelCol += ADDPIXEL(0.09, 3.0);
                 pixelCol += ADDPIXEL(0.12, 2.0);
