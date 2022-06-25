@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Wave
-  m_Shader: {fileID: 4800000, guid: 0ffff2d79f1d24f809dd930035ea8525, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 947b258bd7d794de89fb8d042a8e4a0a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -23,13 +23,42 @@ Material:
         m_Texture: {fileID: 2800000, guid: 6fb29cf83570742e1899f5f4ad55878d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _Amp: 1
     - _Freq: 0.5
     - _Frq: 0.3
     - _Ox: 0
     - _Oy: 0
+    - _Oz: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
     - _Spd: 0.05
     - _Speed: 0.2
     m_Colors: []
   m_BuildTextureStacks: []
+--- !u!114 &2881180522214577456
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
