@@ -30,6 +30,8 @@ public class BlurRendererPass : ScriptableRenderPass
 
     public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
     {
+        // 参考: https://edom18.hateblo.jp/entry/2020/11/02/080719
+        // 上記リンクだと重みテーブルを作成してシェーダに渡していたが、このコードでは省略している。
         var cameraData = renderingData.cameraData;
         var buf = CommandBufferPool.Get(nameof(BlurRendererPass));
         int w = cameraData.camera.scaledPixelWidth;
