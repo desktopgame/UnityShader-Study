@@ -35,6 +35,7 @@ Shader "Unlit/Blur"
             sampler2D _GrabTex;
             float4 _GrabTex_ST;
             float4 _GrabTexSize;
+            float _Factor;
 
             v2f vert (appdata v)
             {
@@ -52,7 +53,7 @@ Shader "Unlit/Blur"
                 // float2 uv = i.pos.xy / i.pos.w;
                 float2 uv = float2(i.pos.x, i.pos.y);
                 half4 pixelCol = half4(0, 0, 0, 0);
-                #define ADDPIXEL(weight,kernelX) tex2Dproj(_GrabTex, UNITY_PROJ_COORD(float4(i.pos.x + _GrabTexSize.x * kernelX, i.pos.y, i.pos.z, i.pos.w))) * weight
+                #define ADDPIXEL(weight,kernelX) tex2Dproj(_GrabTex, UNITY_PROJ_COORD(float4(i.pos.x + _GrabTexSize.x * kernelX * _Factor, i.pos.y, i.pos.z, i.pos.w))) * weight
                 // #define ADDPIXEL(weight,kernelX) tex2D(_GrabTex, float2(uv.x + _GrabTexSize.x * kernelX, uv.y)) * weight
                 // UVを少しずらしながら色を重ねる？
                 pixelCol += ADDPIXEL(0.05, 4.0);
