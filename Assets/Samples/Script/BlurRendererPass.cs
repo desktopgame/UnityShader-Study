@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class TestRendererPass : ScriptableRenderPass
+public class BlurRendererPass : ScriptableRenderPass
 {
     private Material m_material;
     private int m_textureId;
     private int m_grabTexSizeId;
     private RenderTargetIdentifier m_currentTarget;
 
-    public TestRendererPass(Shader shader, string textureName, RenderPassEvent renderPassEvent)
+    public BlurRendererPass(Shader shader, string textureName, RenderPassEvent renderPassEvent)
     {
         this.m_material = new Material(shader);
         this.m_textureId = Shader.PropertyToID(textureName);
@@ -27,7 +27,7 @@ public class TestRendererPass : ScriptableRenderPass
     public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
     {
         var cameraData = renderingData.cameraData;
-        var buf = CommandBufferPool.Get(nameof(TestRendererPass));
+        var buf = CommandBufferPool.Get(nameof(BlurRendererPass));
         int w = cameraData.camera.scaledPixelWidth;
         int h = cameraData.camera.scaledPixelHeight;
         buf.GetTemporaryRT(m_textureId, w, h, 0, FilterMode.Point, RenderTextureFormat.Default);
