@@ -13,8 +13,6 @@ Shader "Unlit/Blur"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
 
@@ -50,11 +48,9 @@ Shader "Unlit/Blur"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // float2 uv = i.pos.xy / i.pos.w;
                 float2 uv = float2(i.pos.x, i.pos.y);
                 half4 pixelCol = half4(0, 0, 0, 0);
                 #define ADDPIXEL(weight,kernelX) tex2Dproj(_GrabTex, UNITY_PROJ_COORD(float4(i.pos.x + _GrabTexSize.x * kernelX * _Factor, i.pos.y, i.pos.z, i.pos.w))) * weight
-                // #define ADDPIXEL(weight,kernelX) tex2D(_GrabTex, float2(uv.x + _GrabTexSize.x * kernelX, uv.y)) * weight
                 // UVを少しずらしながら色を重ねる？
                 pixelCol += ADDPIXEL(0.05, 4.0);
                 pixelCol += ADDPIXEL(0.09, 3.0);
@@ -65,11 +61,7 @@ Shader "Unlit/Blur"
                 pixelCol += ADDPIXEL(0.12, -2.0);
                 pixelCol += ADDPIXEL(0.09, -3.0);
                 pixelCol += ADDPIXEL(0.05, -4.0);
-                // pixelCol.r *= 0.1;
                 return pixelCol;
-                // return tex2D(_GrabTex, i.uv);
-                // return tex2D(_GrabTex, i.uv) * float4(1, 0.2, 1, 1);
-                // return float4(1, 1, 1, 1);
             }
             ENDCG
         }
